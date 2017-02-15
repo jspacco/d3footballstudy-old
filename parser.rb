@@ -10,7 +10,7 @@ end
 
 def processPlayByPlay(filename)
   page = Nokogiri::HTML(open(filename))
-  puts page.class   # => Nokogiri::HTML::Document
+  puts page.class
   page.css('tr.odd, tr.even').each do |e|
     # check if there is a "summary bold" class
     summary = e.css('td[class="summary bold"]')
@@ -22,7 +22,9 @@ def processPlayByPlay(filename)
       downdist=normalize(e.css('td')[0].text)
       event=normalize(e.css('td')[1].text)
       printf("%s => %s\n", downdist, event)
-      #event = Event.create(downdist: downdist, description: event)
+      # TODO: all of the work processing the down-and-distance
+      # and the event and convert it into classes to put into
+      # the database.
     end
   end
 end
@@ -38,7 +40,7 @@ if __FILE__ == $0
       puts team
       Dir[root+'/'+year+'/'+team].each do |file|
         puts file
-        #processPlayByPlay(root+'/'+year+'/'+team+'/'+file)
+        processPlayByPlay(root+'/'+year+'/'+team+'/'+file)
       end
     end
   end

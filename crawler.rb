@@ -45,6 +45,11 @@ end
 def crawlTeam(teamname, url, rooturl, years)
   years.each do |year|
     puts 'year is'+year
+    # if play-by-play/year/teamname already exists then skip it
+    if File.directory?("play-by-play/%s/%s" % [year, teamname.gsub(' ', '_')])
+      printf("skipping %s because play-by-play/%s/%s exists\n" % [teamname.gsub(' ', '_'), year, teamname])
+      next
+    end
     yearurl=url.gsub('2016', year)
 
     # done is a set that tracks whether we've already found a link.
@@ -53,7 +58,12 @@ def crawlTeam(teamname, url, rooturl, years)
     # some games are listed twice. So we skip anything we've already seen.
     # (next in Ruby is like continue in Java or Python)
     done=Set.new
-    page = Nokogiri::HTML(open(yearurl))
+    begin
+      page = Nokogiri::HTML(open(yearurl))
+    rescue
+      printf("Unable to open %s\n" % [yearurl])
+      next
+    end
     page.css('a:contains("BX")').each do |e|
       link = rooturl + e['href']
       if done.include?(link)
@@ -98,13 +108,13 @@ if __FILE__ == $0
   rooturl = 'http://d3football.com'
   path = '/teams/index';
   #  years=['2016', '2015', '2014', '2013', '2012', '2011']
-  years=['2016']
-
+  years=['2015']
   # get the links to the pages containing the play by plays for each team
   teamlinks = crawlTeamLinks(rooturl, path)
   teamlinks.each do |team, link|
     printf("%s => %s\n", team, link)
     # now find all the play by plays and save them to a file
+    # check that the team does not exist in the folder
     crawlTeam(team, link, 'http://d3football.com', years)
   end
 end
