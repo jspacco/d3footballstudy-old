@@ -1,7 +1,10 @@
 require 'rubygems'
 require 'nokogiri'
 
-require_relative 'models/event'
+require_relative 'models/drive'
+require_relative 'models/play'
+require_relative 'models/game'
+require_relative 'models/team'
 require_relative 'config/boot'
 
 def normalize(str)
