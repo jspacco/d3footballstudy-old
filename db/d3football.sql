@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Feb 13, 2017 at 04:08 PM
+-- Generation Time: Feb 16, 2017 at 09:57 PM
 -- Server version: 5.5.38-log
 -- PHP Version: 5.6.2
 
@@ -17,7 +17,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Database: `test`
+-- Database: `d3football`
 --
 
 -- --------------------------------------------------------
@@ -30,8 +30,23 @@ CREATE TABLE `drives` (
 `id` int(11) NOT NULL,
   `game_id` int(11) NOT NULL,
   `team_id` int(11) NOT NULL,
-  `starttime` time NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+  `location` tinyint(4) NOT NULL,
+  `quarter` varchar(4) NOT NULL,
+  `starttime` time NOT NULL,
+  `points` tinyblob NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `field_goals`
+--
+
+CREATE TABLE `field_goals` (
+  `play_id` int(11) NOT NULL,
+  `distance` tinyint(4) NOT NULL,
+  `success` enum('0','1') NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -47,7 +62,18 @@ CREATE TABLE `games` (
   `road_score` tinyint(3) unsigned NOT NULL,
   `date` datetime NOT NULL,
   `gamecode` varchar(100) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `goforit`
+--
+
+CREATE TABLE `goforit` (
+  `play_id` int(11) NOT NULL,
+  `success` enum('0','1') NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -61,10 +87,23 @@ CREATE TABLE `plays` (
   `playnum` tinyint(4) NOT NULL,
   `down` enum('1','2','3','4') NOT NULL,
   `distance` tinyint(4) NOT NULL,
-  `quarter` enum('1','2','3','4') NOT NULL,
   `location` tinyint(4) NOT NULL,
-  `description` varchar(255) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+  `quarter` enum('1','2','3','4') NOT NULL,
+  `description` varchar(255) NOT NULL,
+  `result` tinyint(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `punts`
+--
+
+CREATE TABLE `punts` (
+  `play_id` int(11) NOT NULL,
+  `distance` tinyint(4) NOT NULL,
+  `net` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -75,7 +114,7 @@ CREATE TABLE `plays` (
 CREATE TABLE `teams` (
 `id` int(11) NOT NULL,
   `school` varchar(100) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Indexes for dumped tables
@@ -88,16 +127,34 @@ ALTER TABLE `drives`
  ADD PRIMARY KEY (`id`), ADD KEY `game_id` (`game_id`,`team_id`);
 
 --
+-- Indexes for table `field_goals`
+--
+ALTER TABLE `field_goals`
+ ADD PRIMARY KEY (`play_id`);
+
+--
 -- Indexes for table `games`
 --
 ALTER TABLE `games`
  ADD PRIMARY KEY (`id`), ADD KEY `home_id` (`home_id`,`road_id`,`gamecode`);
 
 --
+-- Indexes for table `goforit`
+--
+ALTER TABLE `goforit`
+ ADD PRIMARY KEY (`play_id`);
+
+--
 -- Indexes for table `plays`
 --
 ALTER TABLE `plays`
  ADD PRIMARY KEY (`id`), ADD KEY `drive_id` (`drive_id`);
+
+--
+-- Indexes for table `punts`
+--
+ALTER TABLE `punts`
+ ADD PRIMARY KEY (`play_id`);
 
 --
 -- Indexes for table `teams`
