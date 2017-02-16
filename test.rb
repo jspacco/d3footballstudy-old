@@ -20,6 +20,7 @@ require_relative 'models/drive'
 require_relative 'models/play'
 
 
+# Look up by name of the school, create if it doesn't exist
 home = Team.find_or_create_by(school: 'Knox')
 road = Team.find_or_create_by(school: 'Monmouth')
 
