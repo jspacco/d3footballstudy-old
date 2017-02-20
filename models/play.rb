@@ -1,28 +1,11 @@
-require 'active_record'
-=begin
+require_relative 'application_record'
 
-DATA MODEL
-
-Team:
-ID name
-
-Game:
-ID homeID roadID date score
-
-Drive:
-ID gameID teamID startTime
-
-Play:
-ID driveID down distance quarter location description playnum
-=end
-
-class Play < ActiveRecord::Base
+class Play < ApplicationRecord
   belongs_to :drive
-  validates :playnum, presence: true
-  #add_index :driveplay, [:drive_id, :playnum], unique: true
-  validates :down, presence: true
-  validates :distance, presence: true
+  validates :playnum, presence: true, numericality: { only_integer: true }
+  validates :down, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 1, less_than_or_equal_to: 4 }
+  validates :distance, presence: true, numericality: { only_integer: true }
   validates :quarter, presence: true
-  validates :location, presence: true
+  validates :location, presence: true, numericality: { only_integer: true, great_than: 0, less_than: 100 }
   validates :description, presence: true
 end

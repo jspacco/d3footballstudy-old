@@ -1,5 +1,5 @@
-require 'active_record'
+require_relative 'application_record'
 
-class Team < ActiveRecord::Base
+class Team < ApplicationRecord
   validates :school, presence: true
 end
