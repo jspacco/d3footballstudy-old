@@ -1,11 +1,4 @@
 require_relative 'application_record'
-=begin
-Drive:
-ID gameID teamID startTime
-
-Could also track overal stats for the drive
-like starting position and ultimate outcome
-=end
 
 class Drive < ApplicationRecord
   belongs_to :game
