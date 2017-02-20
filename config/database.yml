@@ -6,5 +6,5 @@ default: &default
   username: root
   password: root
   host: localhost
-  database: test
+  database: d3football
   port: 8889
