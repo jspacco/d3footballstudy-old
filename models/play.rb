@@ -8,4 +8,5 @@ class Play < ApplicationRecord
   validates :quarter, presence: true
   validates :location, presence: true, numericality: { only_integer: true, great_than: 0, less_than: 100 }
   validates :description, presence: true
+  validates :result, presence: true, numericality: { only_integer: true }
 end
