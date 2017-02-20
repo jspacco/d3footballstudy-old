@@ -1,11 +1,15 @@
 require 'rubygems'
 require 'nokogiri'
 
+require_relative 'config/boot'
+require_relative 'models/team'
+require_relative 'models/game'
 require_relative 'models/drive'
 require_relative 'models/play'
-require_relative 'models/game'
-require_relative 'models/team'
-require_relative 'config/boot'
+require_relative 'models/punt'
+require_relative 'models/goforit'
+require_relative 'models/field_goal'
+
 
 def normalize(str)
   return str.gsub(/(\n\r)|\s+/, ' ').strip
@@ -14,6 +18,7 @@ end
 def processPlayByPlay(filename)
   page = Nokogiri::HTML(open(filename))
   puts page.class
+  # search for the table rows using a JQuery-like syntax
   page.css('tr.odd, tr.even').each do |e|
     # check if there is a "summary bold" class
     summary = e.css('td[class="summary bold"]')
@@ -32,7 +37,7 @@ def processPlayByPlay(filename)
   end
 end
 
-if __FILE__ == $0
+def main
   root='play-by-play'
   Dir[root+'/2016/*'].each do |team|
     puts team
@@ -48,5 +53,10 @@ if __FILE__ == $0
     end
   end
 
-  #processPlayByPlay('play-by-play/2016/Knox/20161015_m72v.xml')
+end
+
+if __FILE__ == $0
+  #main
+
+  processPlayByPlay('play-by-play/2016/Knox/20161015_m72v.xml')
 end
