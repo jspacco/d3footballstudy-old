@@ -49,8 +49,12 @@ def processPlayByPlay(filename)
       m = event.match(/.* rush for (\d+) yards to the ([A-Z]+\d+) .*/i)
       if m != nil
         yards, location = m.captures
+        # TODO: put into the database
         p yards, location
+        # next is like continue in Java
+        next
       end
+      # and now we need a bunch more regexps
 
     end
   end
