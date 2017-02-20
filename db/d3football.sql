@@ -3,18 +3,12 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Feb 16, 2017 at 09:57 PM
+-- Generation Time: Feb 20, 2017 at 07:24 AM
 -- Server version: 5.5.38-log
 -- PHP Version: 5.6.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
 
 --
 -- Database: `d3football`
@@ -33,7 +27,7 @@ CREATE TABLE `drives` (
   `location` tinyint(4) NOT NULL,
   `quarter` varchar(4) NOT NULL,
   `starttime` time NOT NULL,
-  `points` tinyblob NOT NULL
+  `points` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -88,7 +82,7 @@ CREATE TABLE `plays` (
   `down` enum('1','2','3','4') NOT NULL,
   `distance` tinyint(4) NOT NULL,
   `location` tinyint(4) NOT NULL,
-  `quarter` enum('1','2','3','4') NOT NULL,
+  `quarter` enum('1','2','3','4','5') NOT NULL,
   `description` varchar(255) NOT NULL,
   `result` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -186,6 +180,3 @@ MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT;
 --
 ALTER TABLE `teams`
 MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
