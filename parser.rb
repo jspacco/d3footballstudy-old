@@ -18,6 +18,18 @@ end
 def processPlayByPlay(filename)
   page = Nokogiri::HTML(open(filename))
   puts page.class
+  # extract the names of the teams
+  roadteam, hometeam = page.css('div.align-center')[0].css('div')[0].text.split(' vs. ')
+  puts "#{roadteam} at #{hometeam}"
+  # extract the score
+  roadscore = page.css('span.stats-header')[1].text
+  homescore = page.css('span.stats-header')[3].text
+  puts "roadscore: #{roadscore}, homescore: #{homescore}"
+  # extract the shortened team names
+  roadteamshort = page.css('span.stats-header')[0].text
+  hometeamshort = page.css('span.stats-header')[2].text
+  puts "shortened: #{roadteamshort} at #{hometeamshort}"
+
   # search for the table rows using a JQuery-like syntax
   page.css('tr.odd, tr.even').each do |e|
     # check if there is a "summary bold" class
