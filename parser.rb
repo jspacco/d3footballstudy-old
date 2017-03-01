@@ -52,22 +52,38 @@ def processPlayByPlay(filename)
       m = downdist.match(/(^.*) and (\d+) at ([A-Z]+\d+)/i)
       if m != nil
         down, dist, loc = m.captures
-        p down, dist, loc
+        # TODO create drive
+        #p down, dist, loc
       end
 
       # OK, now process all of the events, such as:
       # N. Edlund rush for 3 yards to the KC28 (Dakotah Jones).
       # We are going to try to match them with a regexp, one at a time
-      m = event.match(/.* rush for (\d+) yards to the ([A-Z]+\d+) .*/i)
-      if m != nil
+      if (m = event.match(/.* rush for (\d+) yards? to the ([A-Z]+\d+).*/i)) != nil
         yards, location = m.captures
         # TODO: put into the database
-        p yards, location
-        # next is like continue in Java
-        next
+        puts "MATCH: #{yards} #{location}"
+      elsif (m = event.match(/.* pass complete to .* for loss of (\d+) yard.*/)) != nil
+        # M. McCaffrey pass complete to B. Powers for loss of 3 yards to the KC48 (Dyllan Bailey).
+        yards = -m.captures[0].to_i
+        puts "MATCH: #{yards}"
+      elsif (m = event.match(/.* rush for no gain.*/)) != nil
+        # N. Edlund rush for no gain to the KC48 (Adam Jackson).
+        yards = 0
+        puts "MATCH: #{yards}"
+      elsif (m = event.match(/.* punt (\d+) yards to the ([A-Z]+\d+).*fair catch.*/)) != nil
+        # M. McCaffrey punt 22 yards to the IC32, fair catch by Kyle Obertino.
+        # punt with no return
+        yards, location = m.captures
+        net = yards
+        puts "MATCH: #{yards}"
+      elsif (m = event.match(/.* pass complete to .* for (\d+) yard.*/)) != nil
+        # Blake Matson pass complete to Kyle Obertino for 6 yards to the IC38 (E. Economos).
+        yards = m.captures[0]
+        puts "MATCH: #{yards}"
+      else
+        puts "\n#{event}"
       end
-      # and now we need a bunch more regexps
-
     end
   end
 end
